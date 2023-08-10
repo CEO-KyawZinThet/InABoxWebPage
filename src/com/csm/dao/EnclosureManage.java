@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.csm.DBManager;
+import com.csm.entity.Diet;
 import com.csm.entity.Enclosure;
 
 public class EnclosureManage {
@@ -31,30 +32,31 @@ public class EnclosureManage {
 	    }
 
 
-    public ArrayList<Enclosure> fetchAll() throws ClassNotFoundException, SQLException {
-        ArrayList<Enclosure> enclosures = new ArrayList<Enclosure>();
-        Enclosure c;
+	 public ArrayList<Enclosure> fetchAll() throws ClassNotFoundException, SQLException {
+	        ArrayList<Enclosure> enclosures = new ArrayList<>();
+	        Enclosure enclosure;
 
-        // Get connection
-        DBManager dbMgr = new DBManager();
-        Connection conn = dbMgr.getConnection();
+	        // Get connection
+	        try (Connection conn = DBManager.getConnection()) {
+	            // Prepare statement
+	            String sql = "SELECT * FROM `gwwb`.`enclosures`";
+	            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	                ResultSet rs = pstmt.executeQuery();
 
-        // Query
-        String sql = "SELECT * FROM gwwb.Enclosures";
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        ResultSet rs = pstmt.executeQuery();
+	                while (rs.next()) {
+	                    int enclosureId = rs.getInt("Enclosure_Id");
+	                    String enclosureType = rs.getString("Enclosure_Type");
+	                    String location = rs.getString("Location");
+	                    
+	                    
+	                        enclosure = new Enclosure(enclosureId, enclosureType, location);
+	                        enclosures.add(enclosure);
+	                }
+	            }
+	        }
 
-        while (rs.next()) {
-            c = new Enclosure(
-                    rs.getInt("Enclosure_Id"),
-                    rs.getString("Enclosure_Type"),
-                    rs.getString("Location")
-            );
-
-            enclosures.add(c);
-        }
-        return enclosures;
-    }
+	        return enclosures;
+	    }
 
     public int delete(int EnclosureId) throws ClassNotFoundException, SQLException {
         int result = -1;
@@ -74,4 +76,54 @@ public class EnclosureManage {
         result = pstmt.executeUpdate();
         return result;
     }
+    
+    public int update(Enclosure enclosure) throws ClassNotFoundException, SQLException {
+        int result = -1;
+
+        // Get connection
+        try (Connection conn = DBManager.getConnection()) {
+            // Prepare statement
+            String sql = "UPDATE `gwwb`.`enclosures` SET " +
+                    "`Enclosure_Type` = ?, " +
+                    "`Location` = ? " +
+                    "WHERE (`Enclosure_Id` = ?)";
+
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, enclosure.getEnclosure_Type());
+                pstmt.setString(2, enclosure.getLocation());
+                pstmt.setInt(3, enclosure.getEnclosure_Id());
+
+                // Execute statement
+                result = pstmt.executeUpdate();
+            }
+        }
+
+        return result;
+    }
+
+    public Enclosure getById(int EnclosureId) throws ClassNotFoundException, SQLException {
+        Enclosure enclosure = null;
+
+        // Get connection
+        try (Connection conn = DBManager.getConnection()) {
+            // Prepare statement
+            String sql = "SELECT * FROM `gwwb`.`enclosures` WHERE (`Enclosure_Id` = ?)";
+
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, EnclosureId);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    int enclosureId = rs.getInt("Enclosure_Id");
+                    String enclosureType = rs.getString("Enclosure_Type");
+                    String location = rs.getString("Location");
+                    
+                    enclosure = new Enclosure(enclosureId, enclosureType, location);
+                }
+            }
+        }
+
+        return enclosure;
+    }
+    
 }

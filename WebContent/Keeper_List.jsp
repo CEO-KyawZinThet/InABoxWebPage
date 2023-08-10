@@ -51,6 +51,19 @@
         .table-container {
             margin-top: 40px;
         }
+        a.delete-link {
+        	color: #005580;
+            text-decoration: none;
+        }
+         a.edit-link {
+            color: #005580;
+            text-decoration: none;
+        }
+
+        a.edit-link:hover {
+            color: #00bfff;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -59,41 +72,46 @@
         <h1 class="header-text">Keeper List</h1>
         <p>Welcome to our Keeper List page. Meet our dedicated keepers.</p>
     </div>
-    <div class="container table-container">
+   <div class="container table-container">
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <h1 class="text-center">Keeper List</h1>
                 <table class="table table-bordered table-striped mt-4">
                     <thead class="thead-dark">
                         <tr>
+                        	<th>Keeper ID</th>
                             <th>Keeper Name</th>
                             <th>Date Of Birth</th>
                             <th>Rank</th>
                             <th>Delete Keeper</th>
+                            <th>Edit Keeper</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% 
                             try {
+                                // Get connection
                                 DBManager dbMgr = new DBManager();
-                                dbMgr.getConnection();
+                                try (Connection conn = dbMgr.getConnection()) {
+                                    // Fetch all keepers
+                                    KeeperManage eMgr = new KeeperManage();
+                                    ArrayList<Keeper> keepers = eMgr.fetchAll();
 
-                                KeeperManage eMgr = new KeeperManage();
-                                ArrayList<Keeper> keepers = eMgr.fetchAll();
-
-                                for (Keeper keeper : keepers) {
+                                    // Display the keeper details in the table
+                                    for (Keeper keeper : keepers) {
                         %>
                         <tr>
-                            <td><%= keeper.getKeeper_Name() %></td>
-                            <td><%= keeper.getDate_of_Birth() %></td>
+                        	<td><%= keeper.getKeeperId() %></td>
+                            <td><%= keeper.getKeeperName() %></td>
+                            <td><%= keeper.getDateOfBirth().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd")) %></td>
                             <td><%= keeper.getRank() %></td>
-                            <td><a href="Keeper_Delete.jsp?KeeperId=<%= keeper.getKeeper_Id()%>">Delete</a></td>
+                            <td><a class="delete-link" href="Keeper_Delete.jsp?KeeperId=<%= keeper.getKeeperId() %>">Delete</a></td>
+                            <td><a class="edit-link" href="Keeper_Edit.jsp?Keeper_Id=<%= keeper.getKeeperId() %>">Edit</a></td>
                         </tr>
                         <% 
-                                }
-                            } catch (ClassNotFoundException e) {
-                                e.printStackTrace();
-                            } catch (SQLException e) {
+                                    } // End of for loop
+                                } // End of try-with-resources for Connection
+                            } catch (ClassNotFoundException | SQLException e) {
                                 e.printStackTrace();
                             }
                         %>

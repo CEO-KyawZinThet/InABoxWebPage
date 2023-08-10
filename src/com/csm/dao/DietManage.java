@@ -76,6 +76,57 @@ public class DietManage {
 		result = pstmt.executeUpdate();
 		return result;
 	}
-
+    
+    public int update(Diet c)throws ClassNotFoundException,
+	SQLException{
+		
+		int result = -1;
+		
+		//get connection
+		DBManager dbMgr = new DBManager();
+		Connection conn = dbMgr.getConnection();
+		
+		//prepare statement
+		String sql = "UPDATE `gwwb`.`diet` SET " +
+				"`Diet_Type` = ?, " +
+				"`No_of_Feed` = ?" +
+				" WHERE (`Diet_Id` = ?)";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		
+		pstmt.setString(1, c.getDiet_Type());
+		pstmt.setInt(2, c.getNo_of_feed());
+		pstmt.setInt(3, c.getDietID());
+		
+		//execute statement
+		result = pstmt.executeUpdate();
+		return result;
+	}
+	
+    public Diet getById (int DietId) throws ClassNotFoundException,
+	SQLException{
+		String sql;
+		DBManager dbMgr = new DBManager();
+		Connection conn = dbMgr.getConnection();
+		
+		//prepare statement
+		sql = "SELECT * FROM `gwwb`.`diet` " +
+				"WHERE (`Diet_ID` = ?)";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setInt (1, DietId);
+		ResultSet rs = pstmt.executeQuery();
+		
+		Diet diet = null;
+		
+		while (rs.next()){
+			diet = new Diet(rs.getInt("Diet_Id"),
+					rs.getString("Diet_Type"),
+					rs.getInt("No_of_Feed"));
+		}
+		return diet;
+	}
     
 }

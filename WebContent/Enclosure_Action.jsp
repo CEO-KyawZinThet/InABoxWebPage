@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="com.csm.dao.EnclosureManage" %>
 <%@ page import="com.csm.entity.Enclosure" %>
-<%@ page import="com.csm.IncorrectDataTypeException" %>
 <%@ page import="java.sql.SQLException" %>
 
 <%
@@ -28,9 +27,6 @@
     } catch (SQLException e) {
         e.printStackTrace();
         out.println("Error: SQLException - " + e.getMessage());
-    } catch (IncorrectDataTypeException e) {
-        e.printStackTrace();
-        out.println("Error: " + e.getMessage());
     } catch (Exception e) {
         e.printStackTrace();
         out.println("Error: Unexpected Exception - " + e.getMessage());

@@ -2,7 +2,6 @@
 <%@ page import="com.csm.DBManager" %>
 <%@ page import="com.csm.dao.SpeciesManage" %>
 <%@ page import="com.csm.entity.Species" %>
-<%@ page import="com.csm.IncorrectDataTypeException" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.time.LocalDate" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -44,9 +43,6 @@
     } catch (SQLException e) {
         e.printStackTrace();
         out.println("Error: SQLException - " + e.getMessage());
-    } catch (IncorrectDataTypeException e) {
-        e.printStackTrace();
-        out.println("Error: " + e.getMessage());
     } catch (Exception e) {
         e.printStackTrace();
         out.println("Error: Unexpected Exception - " + e.getMessage());

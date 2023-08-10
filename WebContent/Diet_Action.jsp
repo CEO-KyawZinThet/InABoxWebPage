@@ -8,40 +8,44 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Diet Process Data</title>
+<title>Insert title here</title>
 </head>
 <body>
 <%
-try
-{
-	String dt = request.getParameter("type");
-	int df = Integer.parseInt(request.getParameter("feed"));
-	
-	//calling DBManager 
-	DBManager dbMgr = new DBManager();
-	
-	//using object calling jdbc getconnection
-	dbMgr.getConnection();
-	
-	//two parameter passing 
-	Diet c = new Diet(dt, df);
-	
-	//calling DietManage
-	DietManage eMag = new DietManage();
-	int affect = -1;
-	
-	//calling dao 
-	affect = eMag.insert(c);
-	
-	if(affect == 1) {
-		out.println("Successfully Inserted.");
-%>
-<script>
-    // JavaScript alert box to display the success message
-    alert("Diet entry successfully inserted!");
-</script>
-<%
-	}
+try {
+    String dt = request.getParameter("type");
+    String feedParam = request.getParameter("feed");
+    int df;
+    
+    try {
+        df = Integer.parseInt(feedParam);
+    } catch (NumberFormatException ex) {
+        out.println("Invalid input for 'feed'. Please enter a valid integer.");
+        return; // Stop processing further since the input is invalid
+    }
+
+    //calling DBManager 
+    DBManager dbMgr = new DBManager();
+    
+    //using object calling jdbc getconnection
+    dbMgr.getConnection();
+    
+    //two parameters passing 
+    Diet c = new Diet(dt, df);
+    
+    //calling DietManage
+    DietManage eMag = new DietManage();
+    int affect = -1;
+    
+    //calling dao 
+    affect = eMag.insert(c);
+    
+    if (affect == 1) {
+        out.println("Successfully Inserted.");
+    } else {
+        out.println("Failed to insert the data.");
+    }
+
 } catch (ClassNotFoundException e) {
     e.printStackTrace();
 } catch (SQLException e) {

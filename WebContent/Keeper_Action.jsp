@@ -2,7 +2,6 @@
 <%@ page import="com.csm.DBManager" %>
 <%@ page import="com.csm.dao.KeeperManage" %>
 <%@ page import="com.csm.entity.Keeper" %>
-<%@ page import="com.csm.IncorrectDataTypeException" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.time.LocalDate" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -27,8 +26,8 @@
         // Parse date_of_birth string to LocalDate object
         LocalDate dateOfBirth = java.time.LocalDate.parse(dateOfBirthStr);
 
-        // Two parameters passing
-        Keeper keeper = new Keeper(keeperName, dateOfBirth, rank);
+        // Create a new Keeper object with a default keeperId value (0 for now)
+        Keeper keeper = new Keeper(0, keeperName, dateOfBirth, rank);
 
         // Calling KeeperManage
         KeeperManage keeperManager = new KeeperManage();
@@ -46,10 +45,7 @@
     } catch (SQLException e) {
         e.printStackTrace();
         out.println("Error: SQLException - " + e.getMessage());
-    } catch (IncorrectDataTypeException e) {
-        e.printStackTrace();
-        out.println("Error: " + e.getMessage());
-    } catch (Exception e) {
+    }catch (Exception e) {
         e.printStackTrace();
         out.println("Error: Unexpected Exception - " + e.getMessage());
     }

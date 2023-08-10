@@ -1,6 +1,5 @@
 package com.csm.entity;
 
-import com.csm.IncorrectDataTypeException;
 import java.time.LocalDate;
 
 public class Keeper {
@@ -9,20 +8,23 @@ public class Keeper {
     private LocalDate dateOfBirth;
     private String rank;
 
-    public Keeper(int keeperId, String keeperName, LocalDate dateOfBirth, String rank) {
-        super();
-        this.keeperId = keeperId;
-        setKeeperName(keeperName);
-        setDateOfBirth(dateOfBirth);
-        setRank(rank);
+    public Keeper() {
     }
 
     public Keeper(String keeperName, LocalDate dateOfBirth, String rank) {
-        super();
-        setKeeperName(keeperName);
-        setDateOfBirth(dateOfBirth);
-        setRank(rank);
+        this.keeperName = keeperName;
+        this.dateOfBirth = dateOfBirth;
+        this.rank = rank;
     }
+
+    public Keeper(int keeperId, String keeperName, LocalDate dateOfBirth, String rank) {
+        this.keeperId = keeperId;
+        this.keeperName = keeperName;
+        this.dateOfBirth = dateOfBirth;
+        this.rank = rank;
+    }
+
+    // Getters and setters for all properties
 
     public int getKeeperId() {
         return keeperId;
@@ -37,10 +39,6 @@ public class Keeper {
     }
 
     public void setKeeperName(String keeperName) {
-        // Validate that the keeperName contains only letters and no digits
-        if (keeperName.matches(".*\\d.*")) {
-            throw new IncorrectDataTypeException("Keeper_Name", keeperName);
-        }
         this.keeperName = keeperName;
     }
 
@@ -49,7 +47,6 @@ public class Keeper {
     }
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
-        // Additional validation can be performed here if needed.
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -58,10 +55,6 @@ public class Keeper {
     }
 
     public void setRank(String rank) {
-        // Validate that the rank contains only letters and no digits
-        if (rank.matches(".*\\d.*")) {
-            throw new IncorrectDataTypeException("Rank", rank);
-        }
         this.rank = rank;
     }
 }

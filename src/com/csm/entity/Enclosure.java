@@ -1,54 +1,45 @@
 package com.csm.entity;
 
-import com.csm.IncorrectDataTypeException;
-
 public class Enclosure {
-    private int Enclosure_Id;
-    private String Enclosure_Type;
-    private String Location;
+    private int enclosure_Id;
+    private String enclosure_Type;
+    private String location;
 
     public Enclosure(int enclosure_Id, String enclosure_Type, String location) {
-        super();
-        Enclosure_Id = enclosure_Id;
-        setEnclosure_Type(enclosure_Type);
-        setLocation(location);
+        this.enclosure_Id = enclosure_Id;
+        this.enclosure_Type = enclosure_Type;
+        this.location = location;
+    }
+
+    // Getters and setters for all properties
+
+    public int getEnclosure_Id() {
+        return enclosure_Id;
     }
 
     public Enclosure(String enclosure_Type, String location) {
-        super();
-        setEnclosure_Type(enclosure_Type);
-        setLocation(location);
-    }
+		super();
+		this.enclosure_Type = enclosure_Type;
+		this.location = location;
+	}
 
-    public int getEnclosure_Id() {
-        return Enclosure_Id;
-    }
-
-    public void setEnclosure_Id(int enclosure_Id) {
-        Enclosure_Id = enclosure_Id;
+	public void setEnclosure_Id(int enclosure_Id) {
+        this.enclosure_Id = enclosure_Id;
     }
 
     public String getEnclosure_Type() {
-        return Enclosure_Type;
+        return enclosure_Type;
     }
 
     public void setEnclosure_Type(String enclosure_Type) {
-        // Validate that the Enclosure_Type contains only letters and no digits
-        if (enclosure_Type.matches(".*\\d.*")) {
-            throw new IncorrectDataTypeException("Enclosure_Type", enclosure_Type);
-        }
-        Enclosure_Type = enclosure_Type;
+        this.enclosure_Type = enclosure_Type;
     }
 
     public String getLocation() {
-        return Location;
+        return location;
     }
 
     public void setLocation(String location) {
-        // Validate that the Location contains only letters and no digits
-        if (location.matches(".*\\d.*")) {
-            throw new IncorrectDataTypeException("Location", location);
-        }
-        Location = location;
+        this.location = location;
     }
 }

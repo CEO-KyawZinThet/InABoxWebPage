@@ -1,6 +1,5 @@
 package com.csm.entity;
 
-import com.csm.IncorrectDataTypeException;
 
 public class Animal {
     private int Animal_Id;
@@ -37,10 +36,6 @@ public class Animal {
     }
 
     public void setKeeper_Name(String name) {
-        // Validate that the name contains only letters and no digits
-        if (name.matches(".*\\d.*")) {
-            throw new IncorrectDataTypeException("Name", name);
-        }
         Keeper_Name = name;
     }
 
@@ -90,10 +85,6 @@ public class Animal {
     }
 
     public void setAnimal_Name(String animal_Name) {
-        // Validate that the Animal_Name contains only letters and no digits
-        if (animal_Name.matches(".*\\d.*")) {
-            throw new IncorrectDataTypeException("Animal_Name", animal_Name);
-        }
         Animal_Name = animal_Name;
     }
 
@@ -102,10 +93,6 @@ public class Animal {
     }
 
     public void setGender(String gender) {
-        // Validate that the Gender contains only letters and no digits
-        if (gender.matches(".*\\d.*")) {
-            throw new IncorrectDataTypeException("Gender", gender);
-        }
         Gender = gender;
     }
 

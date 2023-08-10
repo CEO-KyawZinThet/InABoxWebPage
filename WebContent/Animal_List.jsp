@@ -18,7 +18,6 @@
     <style>
         body {
             background-color: #f8f9fa; /* Light Gray */
-            background-image: url('https://example.com/path-to-your-image.jpg'); /* Replace with your image URL */
             background-repeat: no-repeat;
             background-size: cover;
         }
@@ -79,6 +78,7 @@
                             <th>Enclosure ID</th>
                             <th>Diet ID</th>
                            	<th>Delete Animal</th>
+                           	<th>Edit Animal</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -102,7 +102,7 @@
                             <td><%= animal.getEnclosures_Enclosure_Id() %></td>
                             <td><%= animal.getDiet_Diet_Id() %></td>
                             <td><a href="Animal_Delete.jsp?AnimalId=<%= animal.getAnimal_Id()%>">Delete</a></td>
-
+							<td><a class="edit-link" href="Animal_Edit.jsp?AnimalID=<%= animal.getAnimal_Id() %>">Edit</a></td>
                         </tr>
                         <% 
                                 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import com.csm.DBManager;
 import com.csm.entity.Animal;
+import com.csm.entity.Diet;
 
 public class AnimalManage {
     // Insert a new Animal record
@@ -149,4 +150,74 @@ String sql = "Select Keeper_Name, Count(Animal_ID) AS Total_Animal From animal\r
 		result = pstmt.executeUpdate();
 		return result;
 	}
+	
+	public int update(Animal animal) throws ClassNotFoundException, SQLException {
+	    int result = -1;
+
+	    // Get connection
+	    try (Connection conn = DBManager.getConnection()) {
+	        // Prepare statement
+	        String sql = "UPDATE `gwwb`.`animal` SET " +
+	                     "`Animal_Name` = ?, " +
+	                     "`Gender` = ?, " +
+	                     "`Year_of_Arrival` = ?, " +
+	                     "`Species_Species_Id` = ?, " +
+	                     "`Keeper_Keeper_Id` = ?, " +
+	                     "`Enclosures_Enclosure_Id` = ?, " +
+	                     "`Diet_Diet_Id` = ? " +
+	                     "WHERE (`Animal_Id` = ?)";
+
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+
+	        pstmt.setString(1, animal.getAnimal_Name());
+	        pstmt.setString(2, animal.getGender());
+	        pstmt.setInt(3, animal.getYear_of_Arrival());
+	        pstmt.setInt(4, animal.getSpecies_Species_Id());
+	        pstmt.setInt(5, animal.getKeeper_Keeper_Id());
+	        pstmt.setInt(6, animal.getEnclosures_Enclosure_Id());
+	        pstmt.setInt(7, animal.getDiet_Diet_Id());
+	        pstmt.setInt(8, animal.getAnimal_Id());
+
+	        // Execute statement
+	        result = pstmt.executeUpdate();
+	    }
+
+	    return result;
+	}
+
+		
+	public Animal getById(int animalId) throws ClassNotFoundException, SQLException {
+	    Animal animal = null;
+
+	    // Get connection
+	    try (Connection conn = DBManager.getConnection()) {
+	        // Prepare statement
+	        String sql = "SELECT * FROM `gwwb`.`animal` WHERE (`Animal_Id` = ?)";
+	        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	            pstmt.setInt(1, animalId);
+
+	            // Execute query
+	            try (ResultSet rs = pstmt.executeQuery()) {
+	                if (rs.next()) {
+	                    animal = new Animal(
+	                        rs.getInt("Animal_Id"),
+	                        rs.getString("Animal_Name"),
+	                        rs.getString("Gender"),
+	                        rs.getInt("Year_of_Arrival"),
+	                        rs.getInt("Species_Species_Id"),
+	                        rs.getInt("Keeper_Keeper_Id"),
+	                        rs.getInt("Enclosures_Enclosure_Id"),
+	                        rs.getInt("Diet_Diet_Id")
+	                    );
+	                }
+	            }
+	        }
+	    }
+
+	    return animal;
+	}
+
+	    
+
+
 }
